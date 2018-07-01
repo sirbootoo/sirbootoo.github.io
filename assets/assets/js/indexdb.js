@@ -60,7 +60,7 @@ const idbKey = {
     }
 };
 
-export const ish = (index, obj) => {
+export const setCurrencyList = (index, obj) => {
     idbKey.set('currencies', index, obj);
 }
 

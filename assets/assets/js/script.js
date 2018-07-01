@@ -1,4 +1,4 @@
-import { currencies, ish, listCurrencies, setConvertion, getConvertion } from './indexdb';
+import { currencies, setCurrencyList, listCurrencies, setConvertion, getConvertion } from './indexdb';
 // declare $;
 const firstInput = document.querySelector('#firstInput');
 const secondInput = document.querySelector('#secondInput');
@@ -28,7 +28,7 @@ const onlineFetching = () => {
                 }
                 firstSelect.innerHTML += `<option data-symbol="${key.currencySymbol || key.id}" id="${key.id + i}" value="${key.id}">${key.id}</option>`
                 secondSelect.innerHTML += `<option data-symbol="${key.currencySymbol || key.id}" value="${key.id}">${key.id}</option>`
-                ish(i, payl[mkey]);
+                setCurrencyList(i, payl[mkey]);
                 i++;
             }
         }).catch(() => {
@@ -82,6 +82,7 @@ const getRate = (payload) => {
         let results = res.results;
         for(let resul in results){
             console.log(resul);
+            results[resul].timestamp = new Date();
             setConvertion(resul, results[resul]);
             rate = results[resul];
         }
@@ -103,7 +104,7 @@ document.getElementById('convertBtn').addEventListener('click', (lo) => {
     console.log(rate);
     secondInput.value = Number(firstInput.value) * Number(rate.val);
     if(rate.offline){
-        document.querySelector('#warning').innerHTML = '<p>This is the updated value as at : </p>'
+        document.querySelector('#warning').innerHTML = `<p>This might not be the updated conversion, but this is the conversion as at :  ${rate.timestamp.getDay().toLocaleDateString("en-US", options)}</p>`
     }
 });
 
@@ -117,7 +118,6 @@ const updateSymbol2 = (e) => {
 
 const init = () => {
     onlineFetching();
-    offlineFetching();
 }
 
 init();
