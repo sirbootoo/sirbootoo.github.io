@@ -8,6 +8,7 @@ import '../assets/assets/js/indexdb.js';
 import '../assets/assets/js/bootstrap.min.js';
 
 import swURL from "file-loader?name=sw.js!babel-loader!./sw";
+import * as ghpages from 'gh-pages';
 
 if ("serviceWorker" in navigator) {
   // Service worker registered
@@ -21,3 +22,12 @@ if ("serviceWorker" in navigator) {
 } else {
   // Service worker is not supported
 }
+
+
+ghpages.publish('build', {
+  branch: 'master',
+  repo: 'https://github.com/sirbootoo/sirbootoo.github.io.git'
+}, (err) => {
+  console.log(err);
+});
+
