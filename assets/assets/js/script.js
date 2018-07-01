@@ -31,7 +31,31 @@ const onlineFetching = () => {
                 ish(i, payl[mkey]);
                 i++;
             }
+        }).catch(() => {
+            offlineFetching();
         });
+}
+
+const offlineFetching = () => {
+    listCurrencies().then(payload => {
+        console.log(payload);
+        let i = 0;
+            for (let obj of array) { // key val looping
+                let key = obj;
+                console.log(key);
+                if (key.id === 'NGN') {
+                    firstSelect.innerHTML += `<option data-symbol="${key.currencySymbol || key.id}" id="${key.id + i}" value="${key.id}" selected>${key.id}</option>`
+                    getRate();
+                    updateSymbol();
+                    updateSymbol2();
+                } else if (key.id === 'USD') {
+                    secondSelect.innerHTML += `<option data-symbol="${key.currencySymbol || key.id}" value="${key.id}" selected>${key.id}</option>`
+                }
+                firstSelect.innerHTML += `<option data-symbol="${key.currencySymbol || key.id}" id="${key.id + i}" value="${key.id}">${key.id}</option>`
+                secondSelect.innerHTML += `<option data-symbol="${key.currencySymbol || key.id}" value="${key.id}">${key.id}</option>`
+                i++;
+            }
+    })
 }
 
 secondSelect.addEventListener('change', () => {
@@ -59,24 +83,28 @@ const getRate = (payload) => {
         for(let resul in results){
             console.log(resul);
             setConvertion(resul, results[resul]);
-            rate = results[resul].val;
+            rate = results[resul];
         }
     }).catch((err) => {
         console.log(err);
         getConvertion(`${firstSelect.value}_${secondSelect.value}`).then(getPayload => {
-            console.log(getPayload);
+            rate = getPayload;
+            rate.offline = true;
+        }).catch(err => {
+            console.log(err);
         })
     });
 }
 
 
+
 document.getElementById('convertBtn').addEventListener('click', (lo) => {
     console.log(firstSelect.value, secondSelect.value);
-    fetch(`https://free.currencyconverterapi.com/api/v5/convert?q=${firstSelect.value}_${secondSelect.value},${secondSelect.value}_${firstSelect.value}`).then(payload => {
-        console.log(payload);
-    }).catch((err) => {
-        console.log(err);
-    });
+    console.log(rate);
+    secondInput.value = Number(firstInput.value) * Number(rate.val);
+    if(rate.offline){
+        document.querySelector('#warning').innerHTML = '<p>This is the updated value as at : </p>'
+    }
 });
 
 const updateSymbol2 = (e) => {
@@ -89,6 +117,7 @@ const updateSymbol2 = (e) => {
 
 const init = () => {
     onlineFetching();
+    offlineFetching();
 }
 
 init();
