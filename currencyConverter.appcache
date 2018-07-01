@@ -1,0 +1,13 @@
+CACHE MANIFEST
+# v1 01/07/2018
+
+
+CACHE:
+src/index.html,
+assets/css/styles.css
+assets/assets/css/cover.css
+assets/assets/css/bootstrap.min.css
+assets/assets/js/popper.js
+assets/assets/js/script.js
+assets/assets/js/indexdb.js
+assets/assets/js/bootstrap.min.js
