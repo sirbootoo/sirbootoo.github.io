@@ -8,7 +8,7 @@ npm run build
 
 to build the application
 
-#Disclaimer
+## Disclaimer
 
 Used netlify rather the proclaimed github pages because I tried for hours to make the deployment work but it didnt but Netlify was a smooth process.
 
