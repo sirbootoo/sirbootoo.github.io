@@ -6,7 +6,8 @@ module.exports = {
     entry: path.resolve(__dirname, 'src'),
     output: {
         path: path.resolve(__dirname, 'build'),
-        filename: 'bundle.js'
+        filename: 'bundle.js',
+        publicPath: '/'
     },
     plugins: [
         new HtmlWebpackPlugin({
@@ -27,9 +28,9 @@ module.exports = {
             exclude: /node_modules/,
             use: ['babel-loader']
         },
-    {
-        test:/\.css$/,
-        use:['style-loader', 'css-loader']
-    }]
+        {
+            test: /\.css$/,
+            use: ['style-loader', 'css-loader']
+        }]
     }
 };
